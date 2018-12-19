@@ -1,0 +1,1100 @@
+
+Project for CS6360 Database Design
+
+Group of 4 18fall UTD students
+
+
+Pre-Illumination
+In this project report we will follow the requirement of Phase IV directly. In Section 1 we gave problem description copied from Web site; in Section 2 we answered 3 questions listed in the project and justified our solution; in Section 3 we exhibited EER diagram with all assumptions; in Section 4 we showed our relational schema after normalization; in Section 5 we gave all requested SQL statements for both views and queries; and in Section 6 we gave dependency diagram induced from relational schemas. Finally, a short summary is given at the end of this report.
+
+
+0.Problem Description
+
+0.Three Questions
+0.1 1. Is the ability to model super-class / subclass relationships likely to be important in such environment? Why or why not?
+Yes. It’s important. Because the subclass entity can inherence all attributes from its superclass. We do not need to store the duplicated attributes in subclass. In our  hospital and medical care center database we use multiple superclass/subclass relationship for inheritance. For example, an employee could be a receptionist, nurse or a doctor so that we just need to store all attributes in employee relation table to achieve both implementation convenience and high storage efficiency.
+
+
+0.1 2. Can you think of 5 more business rules (other than the one explicitly described above) that are likely to be used in a medical care environment? Add your rules to the above requirement to be implemented.
+1. Adding a new attribute: Date to Class1_Patient relation, so now the Class1_Patient can consult a doctor multiple times.
+2. Adding a new relation Prescription, which has attributes:PrespcreptionId, DoctorID, Class1ID, MedicineCode, Date. So we can know what kind of medicine that Class1_Patients need to buy
+3. Adding a new relation Department, which has attributes: DeptId, DeptName, DeptHead and add DeptId to relation Employee, Receptionists, Nureses, Doctors
+4. Adding a new relation LabTest, which has attributes: LabId, Class2ID, DoctorID, TestID, Date. So we can track what kind of test Class2_Patients have done on which day.
+5. Adding a new relation Lab, which has attributes: LabId, LabName, TestID,  
+6. Adding a new relation Test, which has attributes:  TestID,  TestName, TimeNeed, Cost
+7. Adding a new attribute - Company to Medicine relation, different brand of same medicine with different price
+
+
+0.1 3.Justify using a Relational DBMS like Oracle for this project.
+With the DBMS it could have such benefits:
+1.Controlling redundancy in data storage and in development and maintenance efforts.
+2.Sharing of data among multiple users.
+3.Restricting unauthorized access to data.
+4.Providing multiple interfaces to different classes of users.
+5.Representing complex relationships among data.
+6.Enforcing integrity constraints on the database.
+7.Providing backup and recovery services.and relational database model with more advantages: 
+1.Structural independence
+2.Improved conceptual simplicity
+3.Easier database design, implementation, management, and use
+4.Ad hoc query capability (SQL)
+5.Powerful DBMS
+For the hospital, it meets all the requirements and the cost is not hinder the way compared with the business benefits.On the other hand, the hospital indeed requires the different access for different users and the whole system is not sample enough with just basic records.
+
+
+
+
+
+
+
+
+
+
+0.EER diagram with all assumptions
+
+Assumptions:
+
+1.Person ID, Room ID, Treatment ID, Medicine Code and Date of Expiration together, Record ID, Payment ID, Insurance ID are unique, choose them as key and Visitor ID as weak key
+2. A Class_2 patient should be assigned one and only one room.
+3. A nurse assigns a room to a Class_2 patient.
+4. A room can be assigned to only one Class_2 patient.
+5. Some nurses govern/assign rooms, but some of them don’t (have this responsibility).
+6. A nurse can govern several rooms, a room can only be governed by one nurse or none of nurse.
+7. A patient can have multiple Insurances.
+8. When patients pay the medical bill with several insurances, they get a paymentID, a patient must have at least one payment.
+9. Treatment should be associated with pharmacy and Class2_patient.
+10. A Class2_patient should be assigned at least one treatment.
+11. Each receptionist should maintain at least one record and records should at least be maintained by one receptionist.
+12. If the person is one of the two class of patients, the personID is the patientID.
+13. A Class_2 patient doesn't have to have a visitor, but a visitor must be associated with a class 2 patient.
+14. Room duration is  attribute of Assign relation between Nurses, Rooms and Class2_patient to indicate that the time that Class2_patient living in hospital
+16. A new attribute, govern_duration, is added to govern relation between Nurses and Rooms to show how long that Nurse govern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0.Relational Schema in Third Normal Form
+0.1Relational Schema
+ 
+
+
+
+
+
+0.2Normalized relational schema
+ 
+
+
+Format for Every Relation
+Person
+ 
+Figure 2 Dependency Diagram of Person
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema Person, PersonID. Therefore, every other attribute of this relational schema is functionally dependent on PersonID. The dependency diagram is shown as Figure 2
+PersonPhone
+ 
+Figure 3 Dependency Diagram of PersonPhone
+Employee
+ 
+Figure 4 Dependency Diagram of Employee
+The attribute StartDate depends on PersonID. The dependency diagram is shown as Figure 4
+Class1_Patient
+ 
+Figure 5 Dependency Diagram of Class1_Patient
+The attribute DoctorID depends on PersonID. The dependency diagram is shown as Figure 5
+Receptionists
+ 
+Figure 6 Dependency Diagram of Receptionists
+Maintain
+ 
+Figure 7 Dependency Diagram of Maintain
+Records
+ 
+Figure 8 Dependency Diagram of Records
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema Records, RecordID. Therefore, every other attribute of this relational schema is functionally dependent on RecordID. The dependency diagram is shown as Figure 8
+Record
+ 
+Figure 9 Dependency Diagram of Record
+MedicalBillPayment
+ 
+Figure 10 Dependency Diagram of MedicalBillPayment
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema MedicalBillPayment, PaymentID. Therefore, every other attribute of this relational schema is functionally dependent on PaymentID. The dependency diagram is shown as Figure 10
+Cash
+ 
+Figure 11 Dependency Diagram of Cash
+The attribute CashAmount depends on PaymentID. The dependency diagram is shown as Figure 11
+Insurance1
+ 
+Figure 12 Dependency Diagram of Insurance1
+The attribute Amount depends on PaymentID and InsuranceID together. The dependency diagram is shown as Figure 12
+Insurance2
+ 
+Figure 13 Dependency Diagram of Insurance2
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema Insurance2, InsuranceID. Therefore, every other attribute of this relational schema is functionally dependent on InsuranceID. The dependency diagram is shown as Figure 13
+Nurses
+ 
+Figure 14 Dependency Diagram of Nurses
+Doctors
+ 
+Figure 15 Dependency Diagram of Doctors
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema Doctors, PersonID. Therefore, every other attribute of this relational schema is functionally dependent on PersonID. The dependency diagram is shown as Figure 15
+Attend
+ 
+Figure 16 Dependency Diagram of Attend
+Class2_Patient
+ 
+Figure 17 Dependency Diagram of Class2_Patient
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema Class2_Patitent, PersonID and DateOfBeingAdmitted togother. Therefore, every other attribute of this relational schema is functionally dependent on PersonID and DateOfBeingAdmitted. The dependency diagram is shown as Figure 17
+Rooms
+ 
+Figure 18 Dependency Diagram of Rooms
+There is only one attribute in the right-hand side of the functional dependencies, which is the key of relational schema Rooms, RoomID. Therefore, every other attribute of this relational schema is functionally dependent on RoomID. The dependency diagram is shown as Figure 18
+Treatment
+ 
+Figure 19 Dependency Diagram of Treatment
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema Treatment, TreatmentID. Therefore, every other attribute of this relational schema is functionally dependent on TreatmentID. The dependency diagram is shown as Figure 19
+Pharmacy1
+ 
+Figure 20 Dependency Diagram of Pharmacy1
+Pharmacy2
+ 
+Figure 21 Dependency Diagram of Pharmacy2
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema Pharmacy2, MedicineCode. Therefore, every other attribute of this relational schema is functionally dependent on MedicineCode. The dependency diagram is shown as Figure 21
+Assigned
+ 
+Figure 22 Dependency Diagram of Assigned
+Visitors1
+ 
+Figure 23 Dependency Diagram of Visitors1
+Visitors2
+
+ 
+Figure 24 Dependency Diagram of Visitor2
+There is only one attribute in the left-hand side of the functional dependencies, 
+which is the key of relational schema Visitors2, VisitorID. Therefore, every other attribute of this relational schema is functionally dependent on VisitorID. The dependency diagram is shown as Figure 24
+
+0.All Requested SQL Statements
+0.1Creation of Database with SQL Statements
+0.1.1Table Creation
+ --Person
+CREATE TABLE Person
+(PersonID   char(4)      not null,
+Gender     char(1)      not null ,--format:f/m/o
+First      varchar(50)  not null,
+Mid        varchar(50),
+Last        varchar(50)   not null,
+Address     varchar(100),
+DateOfBirth  date, --format:YYYY-MM-DD
+PRIMARY KEY ( PersonID ));
+ALTER TABLE Person Add Check(Gender in ('f','m','o'));
+--PersonPhone
+CREATE TABLE PersonPhone
+(PersonID         char(4)   not null,
+PhoneNumber      char(12)  not null,--format: xxx-xxx-xxxx
+FOREIGN KEY(PersonID) REFERENCES Person(PersonID)  on delete cascade deferrable,
+PRIMARY KEY (PersonID, PhoneNumber));
+--Employee
+CREATE TABLE Employee
+(PersonID   char(4)  not null,
+StartDate    date    not null, --format YYYY-MM-DD 
+PRIMARY KEY(PersonID),
+FOREIGN KEY(PersonID) REFERENCES Person(PersonID) on delete cascade deferrable);
+-- Receptionists
+CREATE TABLE Receptionists
+(PersonID   char(4)  not null,
+PRIMARY KEY(PersonID),
+FOREIGN KEY(PersonID) REFERENCES Employee(PersonID)  on delete cascade deferrable);
+-- Records
+CREATE TABLE Records
+(RecordID     char(4)   not null,
+PersonID      char(4)   not null,
+DateOfVisit    date     not null, --format: YYYY-MM-DD
+Appointment   TIMESTAMP, --format: YYYY-MM-DD HH:MI:SS
+Description    varchar(150),
+PRIMARY KEY(RecordID),
+FOREIGN KEY(PersonID) REFERENCES Person(PersonID) on delete cascade deferrable);
+-- MedicalBillPayment
+CREATE TABLE MedicalBillPayment
+(PaymentID      char(7)      not null, --format: personID + xxx
+DateOfPayment   date        not null, --format: YYYY-MM-DD
+AmountDue      float   not null, --($1 - $9 999 999)
+PersonID        char(4)      not null,
+PRIMARY KEY(PaymentID),
+FOREIGN KEY(PersonID) REFERENCES Person(PersonID) on delete cascade deferrable);
+-- Cash
+CREATE TABLE Cash
+(PaymentID    char(7)    not null,
+CashAmount   float not null,
+PRIMARY KEY(PaymentID),
+FOREIGN KEY(PaymentID) REFERENCES MedicalBillPayment(PaymentID) on delete cascade deferrable); 
+-- Record
+CREATE TABLE Record
+(ReceptionistID   char(4)  not null,
+PaymentID       char(7)  not null,--format: personID + xxx
+PRIMARY KEY(ReceptionistID, PaymentID),
+FOREIGN KEY(ReceptionistID) REFERENCES Receptionists(PersonID) on delete cascade deferrable,
+FOREIGN KEY(PaymentID) REFERENCES MedicalBillPayment(PaymentID) on delete cascade deferrable);
+-- Insurance2
+CREATE TABLE Insurance2
+(InsuranceID         varchar(10)   not null, --format: Ixxxx
+InsuranceProvider    varchar(100)  not null,
+InsuranceCoverage   float    not null,
+PRIMARY KEY(InsuranceID));
+-- Insurance
+CREATE TABLE Insurance1
+(PaymentID         char(7)       not null,
+InsuranceID         varchar(10)   not null, --format: Ixxxx
+Amount            float ,
+PRIMARY KEY(PaymentID, InsuranceID),
+FOREIGN KEY(PaymentID) REFERENCES MedicalBillPayment(PaymentID) on delete cascade deferrable,
+FOREIGN KEY(InsuranceID) REFERENCES Insurance2(InsuranceID) on delete cascade deferrable);
+-- Nurses
+CREATE TABLE Nurses
+(PersonID   char(4)   not null,
+PRIMARY KEY(PersonID),
+FOREIGN KEY(PersonID) REFERENCES Employee(PersonID) on delete cascade deferrable);
+-- Doctors
+CREATE TABLE Doctors
+(PersonID      char(4)      not null,
+Specialization   varchar(30)  not null,
+DoctorLevel    varchar(10)   not null,
+PRIMARY KEY(PersonID),
+FOREIGN KEY(PersonID) REFERENCES Employee(PersonID) on delete cascade deferrable);
+ALTER TABLE Doctors add check(DoctorLevel in ( 'Trainee', 'Permanent' , 'Visiting'));
+-- Maintain
+CREATE TABLE Maintain
+(ReceptionistID   char(4)  not null,
+RecordID        char (4)  not null,--Rxxx
+PRIMARY KEY(ReceptionistID, RecordID),
+FOREIGN KEY(ReceptionistID) REFERENCES Receptionists(PersonID) on delete cascade deferrable,
+FOREIGN KEY(RecordID) REFERENCES Records(RecordID) on delete cascade deferrable
+);
+-- Rooms
+CREATE TABLE Rooms
+(RoomID          char(4)   not null,--//Rxxx
+Type             varchar(20) ,
+Govern_Duration   varchar(10) , --// x days/months/years
+NurseID           char(4)      ,
+PRIMARY KEY(RoomID),
+FOREIGN KEY(NurseID) REFERENCES Nurses(PersonID) on delete set null deferrable);
+-- Treatment
+CREATE TABLE Treatment
+(TreatmentID      char(5)   not null, --// Txxxx
+TreatmentName    varchar(50)   not null,
+Duration          varchar(10)   not null, --//x days/months/years
+PRIMARY KEY(TreatmentID));
+--Pharmacy2
+CREATE TABLE Pharmacy2
+(MedicineCode   char(10)   not null, --//m1/2/...
+MedicineName   varchar(50)   not null,
+Price           varchar(10)    not null, --//x hundred/thousand/million
+Quantity        varchar(10)    not null,
+PRIMARY KEY(MedicineCode));
+-- Pharmacy1
+CREATE TABLE Pharmacy1
+(MedicineCode   char(10)   not null, --//m1/2/...
+DateOfExpir     date         not null, --//YYYY-MM-DD
+PRIMARY KEY(MedicineCode, DateOfExpir),
+FOREIGN KEY (MedicineCode) REFERENCES Pharmacy2 (MedicineCode) on delete cascade deferrable);
+--Visitors2
+CREATE TABLE Visitors2
+(VisitorID            char(4)      not null,
+VisitorName         varchar(50)   not null,
+VisitorAddress      varchar(200) ,
+VisitorContact_Info  varchar(100)   not null ,
+PRIMARY KEY(VisitorID));
+-- Class1_Patient
+CREATE TABLE Class1_Patient
+(PersonID   char(4)  not null,
+DoctorID    char(4) not null,
+PRIMARY KEY(PersonID),
+FOREIGN KEY(PersonID) REFERENCES Person(PersonID) on delete cascade deferrable,
+FOREIGN KEY(DoctorID) REFERENCES Doctors(PersonID);
+-- Class2_Patient
+CREATE TABLE Class2_Patient
+(PersonID             char(4)      not null,
+DateOfBeingAdmitted   date         not null, --YYYY-MM-DD
+EmpID char(4),
+Class1ID char(4),
+Duration              varchar(10)   , --// x days/x months/x years
+RoomID              char(4)       , --//Rx (x: 1 - 1000)
+PRIMARY KEY(PersonID, DateOfBeingAdmitted ),
+FOREIGN KEY(RoomID) REFERENCES Rooms(RoomID) on delete set null deferrable,
+FOREIGN KEY(EmpID) REFERENCES Employee(PersonID) on delete cascade deferrable,
+FOREIGN KEY(Class1ID) REFERENCES Class1_Patient (PersonID) on delete cascade deferrable);
+-- Attend
+CREATE TABLE Attend
+(PersonID             char(4)        not null,
+DateOfBeingAdmitted   date           not null, 
+DoctorID             char(4)        not null,
+PRIMARY KEY(PersonID, DateOfBeingAdmitted, DoctorID),
+FOREIGN KEY(PersonID, DateOfBeingAdmitted) REFERENCES Class2_Patient(PersonID, DateOfBeingAdmitted) on delete cascade deferrable,
+FOREIGN KEY(DoctorID) REFERENCES Doctors(PersonID) on delete cascade deferrable);
+-- Assigned
+CREATE TABLE Assigned
+(PersonID        char(4)      not null,
+DateOfBeingAdmitted   date   not null, 
+TreatmentID      char(5)   not null,
+MedicineCode    char(10)   not null,
+DateOfExpir      date      not null, --// YYYY-MM-DD
+PRIMARY KEY(PersonID,DateOfBeingAdmitted, TreatmentID, MedicineCode, DateOfExpir),
+FOREIGN KEY(PersonID, DateOfBeingAdmitted) REFERENCES Class2_Patient(PersonID, DateOfBeingAdmitted ) on delete cascade deferrable,
+FOREIGN KEY(TreatmentID) REFERENCES Treatment(TreatmentID) on delete cascade deferrable,
+FOREIGN KEY(MedicineCode, DateOfExpir) REFERENCES Pharmacy1(MedicineCode, DateOfExpir) on delete cascade deferrable);
+-- Visitors
+CREATE TABLE Visitors1
+(PersonID           char(4)      not null,
+DateOfBeingAdmitted   date   not null, 
+VisitorID            char(4)      not null,
+PRIMARY KEY(PersonID,DateOfBeingAdmitted, VisitorID),
+FOREIGN KEY(PersonID,DateOfBeingAdmitted) REFERENCES Class2_Patient(PersonID, DateOfBeingAdmitted)on delete cascade deferrable,
+FOREIGN KEY(VisitorID) REFERENCES Visitors2(VisitorID) on delete cascade deferrable);
+
+0.1.1A Database State
+
+insert all
+  into Person values ('P100', 'm','John', '', 'Smith', '800 W Renner Rd, Richardson, TX, 75080', date'1980-04-30')
+  into Person values('P101', 'm','Sam', '', 'Green', '280 W Renner Rd, Richardson, TX, 75080', date'1995-02-02')
+  into Person values('P102', 'f', 'Lily', '', 'Rose', '1001W Park Blvd Rd, Plano, TX, 75075', date'1996-01-30')
+  into Person values ('P103', 'f','Sophie', '', 'Brown', '1001W Park Blvd Rd, Plano, TX, 75075', date'1996-07-02')
+  into Person values('P104', 'm','Jack', '', 'Wilson', '300 Legacy Dr Rd, Plano, TX, 75023', date'1996-05-30')
+  into Person values('P105', 'm','Henry', 'David', 'Johnson', '100 Cityline Dr Rd, Plano, TX, 75082', date'1990-03-10')
+  into Person values('P106', 'f','Emily', 'Grace', 'Miller', '1801 N Greenville Ave, Richardson, TX, 75081', date'1987-05-15')
+  into Person values('P107', 'm','Jacob', '', 'Davis', '1520 Richardson Dr, Richardson, TX, 75080', date'1976-08-30')
+  into Person values('P108', 'f','Ava', 'Marie', 'Jones', '700 18th St, Plano, TX, 75074', date'1976-10-30')
+  into Person values('P109', 'm','Tyler', 'Alan', 'Wilson', '2301 Pebble Vale Dr, Plano, TX, 75075', date'1988-12-24')
+  into Person values('P110', 'm','Robort', 'Thomas', 'Collins', '851 Greenside Dr, Richardson, TX, 75080', date'1977-01-22')
+  into Person values('P111', 'f','Anna', 'Anne', 'Phillips', '3000 Northside Boulevard, Richardson, TX, 75080', date'1977-04-10')
+  into Person values('P112', 'f','Nancy', 'Jean', 'Jackson', '300 Legacy Dr Rd, Plano, TX, 75023', date'1986-08-08')
+  into Person values('P113', 'm','Gary', 'Anthony', 'Wilson', '1075 N Greenville Ave, Richardson, TX, 75081', date'1993-02-23')
+  into Person values('P114', 'm','Scott', '', 'Parker', '1520 Richardson Dr, Richardson, TX, 75080', date'1992-10-25')
+  into Person values('P115', 'f','Betty', 'Ivy', 'King', '2525 Empire Drive, Richardson, TX, 75080', date'1996-01-11')
+  into Person values('P116', 'm','Mark', '', 'Martin', '110 W Cityline Legacy Dr, Richardson, TX, 75080', date'1969-05-30')
+  into Person values('P117', 'f','Betty', '', 'Wilson', '120 W Cityline Legacy Dr, Richardson, TX, 75082', date'1976-11-11')
+  into Person values('P118', 'm','Eric', 'Charles', 'Lee', '1050 Galatyn Pkwy, Richardson, TX, 75082', date'1989-12-16')
+  into Person values('P119', 'm','Peter', '', 'Allen', '300 Legacy Dr Rd, Plano, TX, 75023', date'1996-05-30')
+  into Person values ('P120', 'm','John', '', 'Smith', '80 W Renner Rd, Richardson, TX, 75080', date'1983-04-30')
+  into Person values('P121', 'm','Sam', '', 'Green', '180 W Renner Rd, Richardson, TX, 75080', date'1992-02-02')
+  into Person values ('P122', 'm','John', '', 'Smith', '280 W Renner Rd, Richardson, TX, 75080', date'1980-04-30')
+  into Person values('P123', 'm','Sam', '', 'Green', '180 W Renner Rd, Richardson, TX, 75080', date'1995-02-02')
+  into Person values('P124', 'f', 'Lily', '', 'Rose', '1001W Park Blvd Rd, Plano, TX, 75075', date'1996-01-30')
+  into Person values ('P125', 'f','Sophie', '', 'Brown', '1001W Park Blvd Rd, Plano, TX, 75075', date'1996-07-02')
+select *from dual;
+
+ 
+
+--Insertion of table PersonPhone
+----------------------------------------------------------------------------
+insert all
+into PersonPhone values('P100', '512-123-1234')
+into PersonPhone values('P101', '512-234-3456')
+into PersonPhone values('P102', '512-345-3456')
+into PersonPhone values('P103', '512-456-4567')
+into PersonPhone values('P104', '512-567-5678')
+into PersonPhone values('P105', '737-778-1234')
+into PersonPhone values('P106', '800-899-3456')
+into PersonPhone values('P107', '937-345-3456')
+into PersonPhone values('P108', '361-609-4567')
+into PersonPhone values('P109', '877-567-5678')
+into PersonPhone values('P110', '512-321-1234')
+into PersonPhone values('P111', '512-432-3456')
+into PersonPhone values('P112', '512-543-3456')
+into PersonPhone values('P113', '512-654-4567')
+into PersonPhone values('P114', '512-787-5678')
+into PersonPhone values('P115', '737-899-1234')
+into PersonPhone values('P116', '800-988-3456')
+into PersonPhone values('P117', '937-023-3456')
+into PersonPhone values('P118', '361-749-4567')
+into PersonPhone values('P119', '877-583-5678')
+into PersonPhone values('P120', '512-223-1234')
+into PersonPhone values('P121', '512-384-3456')
+into PersonPhone values('P122', '512-333-1234')
+into PersonPhone values('P123', '512-375-3456')
+into PersonPhone values('P124', '512-853-1234')
+into PersonPhone values('P125', '512-934-3456')
+select *from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Empoyee
+----------------------------------------------------------------------------
+insert all
+  into Employee values('P100', date'2015-05-01')
+  into Employee values('P101', date'2018-09-30')
+  into Employee values('P102', date'2013-09-01')
+  into Employee values('P103', date'2015-05-01')
+  into Employee values('P104', date'2018-09-01')
+  into Employee values('P107', date'2008-06-01')
+  into Employee values('P108', date'2009-08-01')
+  into Employee values('P109', date'2013-09-01')
+  into Employee values('P110', date'2015-05-01')
+  into Employee values('P111', date'2008-06-01')
+  into Employee values('P112', date'2013-09-01')
+  into Employee values('P114', date'2018-09-01')
+  into Employee values('P115', date'2009-08-01')
+  into Employee values('P117', date'2008-06-01')
+  into Employee values('P118', date'2009-08-01')
+  into Employee values('P120', date'2015-05-01')
+  into Employee values('P121', date'2018-09-01')
+  into Employee values('P122', date'2015-09-01')
+  into Employee values('P123', date'2015-09-21')
+  into Employee values('P124', date'2015-10-01')
+  into Employee values('P125', date'2017-10-11')
+select *from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Receptionists
+----------------------------------------------------------------------------
+insert all
+  into Receptionists values('P112')
+  into Receptionists values('P114')
+  into Receptionists values('P115')
+  into Receptionists values('P117')
+  into Receptionists values('P118')
+  into Receptionists values('P120')
+  into Receptionists values('P121')
+select * from dual;  
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Nurses
+----------------------------------------------------------------------------
+insert all
+  into Nurses values('P100')
+  into Nurses values('P101')
+  into Nurses values('P102')
+  into Nurses values('P103')
+  into Nurses values('P104')
+  into Nurses values('P122')
+  into Nurses values('P123')
+  into Nurses values('P124')
+  into Nurses values('P125')
+select * from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Doctors
+----------------------------------------------------------------------------
+insert all
+  into Doctors values('P107','Cardiologist','Trainee')
+  into Doctors values('P108','Cardiologist','Visiting')
+  into Doctors values('P109','Endocrinologist','Permanent')
+  into Doctors values('P110','Hematologist','Trainee')
+  into Doctors values('P111','Hematologist','Permanent')
+select * from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Class1_Patient
+----------------------------------------------------------------------------
+insert all
+  into Class1_Patient values('P100','P108')
+  into Class1_Patient values('P101','P107')
+  into Class1_Patient values('P103','P109')
+  into Class1_Patient values('P105','P107')
+  into Class1_Patient values('P106','P107')
+  into Class1_Patient values('P113','P110')
+  into Class1_Patient values('P114','P110')
+  into Class1_Patient values('P116','P107')
+  into Class1_Patient values('P119','P107')
+  into Class1_Patient values('P122','P107')
+  into Class1_Patient values('P120','P108')
+  into Class1_Patient values('P121','P108')
+  into Class1_Patient values('P123','P108')
+  into Class1_Patient values('P124','P108')
+  into Class1_Patient values('P125','P108')
+select * from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Records
+----------------------------------------------------------------------------
+insert all 
+  into Records values('R100','P100',date'2016-01-01','','can not sleep well')
+  into Records values('R101','P101',date'2018-02-01',TIMESTAMP '2018-02-14 10:45:00','flu') 
+  into Records values('R102','P102',date'2015-01-08','','non consistent headache')
+  into Records values('R103','P103',date'2018-06-11',TIMESTAMP'2018-06-26 10:30:00','headache')
+  into Records values('R104','P104',date'2018-07-08','','can not sleep well')                        
+  into Records values('R105','P105',date'2018-03-02',TIMESTAMP '2018-03-30 15:15:00','can not sleep well')
+  into Records values('R106','P106',date'2017-12-07','','flu') 
+  into Records values('R107','P113',date'2018-11-01','','non consistent headache')
+  into Records values('R108','P114',date'2018-11-04',TIMESTAMP'2018-11-04 09:15:14','emergency, wound stitched and able to leave without stay in the hospital')
+  into Records values('R109','P116',date'2018-11-02','','can not sleep well')
+  into Records values('R110','P119',date'2018-09-01','','non consistent headache')
+  into Records values('R111','P120',date'2018-11-01','','can not sleep well')
+  into Records values('R112','P121',date'2018-11-11','','non consistent headache')
+  into Records values('R113','P122',date'2018-10-30','','non consistent headache')
+  into Records values('R114','P123',date'2018-11-17','','non consistent headache')
+  into Records values('R115','P124',date'2018-11-21','','non consistent headache')
+  into Records values('R116','P125',date'2018-11-25','','non consistent headache')
+select * from dual;
+---------------------------------------------------------------------------- 
+
+--Insertion of table Maintain
+----------------------------------------------------------------------------
+insert all
+  into Maintain values('P112','R101')
+  into Maintain values('P114','R102')
+  into Maintain values('P114','R103')
+  into Maintain values('P114','R104')
+  into Maintain values('P118','R105')
+  into Maintain values('P112','R106')
+  into Maintain values('P115','R107')
+  into Maintain values('P117','R108')
+  into Maintain values('P118','R109')
+  into Maintain values('P117','R110')
+  into Maintain values('P118','R111')
+  into Maintain values('P112','R112')
+  into Maintain values('P114','R113')
+  into Maintain values('P114','R114')
+  into Maintain values('P114','R115')
+  into Maintain values('P114','R116')
+select * from dual;  
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table MedicalBillPayment
+----------------------------------------------------------------------------
+insert all
+  into MedicalBillPayment values('P100011', date'2016-01-01',480,'P100')
+  into MedicalBillPayment values('P101001', date'2018-02-01',1800,'P101')
+  into MedicalBillPayment values('P102005', date'2015-01-08',340,'P102')
+  into MedicalBillPayment values('P103002', date'2018-06-11',780,'P103')
+  into MedicalBillPayment values('P104004', date'2018-07-08',240,'P104') 
+  into MedicalBillPayment values('P105010', date'2018-03-02',80,'P105')
+  into MedicalBillPayment values('P206001', date'2017-12-07',30,'P106')
+  into MedicalBillPayment values('P113003', date'2018-11-01',1000,'P113')
+  into MedicalBillPayment values('P113004', date'2018-11-04',30,'P114')
+  into MedicalBillPayment values('P216017', date'2018-11-02',20,'P116')
+  into MedicalBillPayment values('P219010', date'2018-09-01',172,'P119')
+  into MedicalBillPayment values('P100120', date'2018-11-01',1000,'P120')
+  into MedicalBillPayment values('P101121', date'2018-11-11',1800,'P121')
+  into MedicalBillPayment values('P100122', date'2018-10-30',1000,'P122')
+  into MedicalBillPayment values('P101123', date'2018-11-17',1800,'P123')
+  into MedicalBillPayment values('P100124', date'2018-11-21',1000,'P124')
+  into MedicalBillPayment values('P101125', date'2018-11-25',1800,'P125')
+  select * from dual;  
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Cash
+----------------------------------------------------------------------------
+insert all
+  into Cash values('P100011',480)
+  into Cash values('P101001',200)
+  into Cash values('P102005',40)
+  into Cash values('P103002',100)
+  into Cash values('P104004',50)
+  into Cash values('P105010',80)
+  into Cash values('P206001',30)
+  into Cash values('P113003',20)
+  into Cash values('P113004',30)
+  into Cash values('P216017',20)
+  into Cash values('P219010',172)
+  into Cash values('P100120',100)
+  into Cash values('P101121',200)
+  into Cash values('P100122',100)
+  into Cash values('P101123',100)
+  into Cash values('P100124',100)
+  into Cash values('P101125',80)
+select * from dual; 
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Insurance
+----------------------------------------------------------------------------
+Insert All
+  into Insurance2 values('I1923', 'StateFarm',3000)
+  into Insurance2 values('I1922', 'StateFarm',10000)
+  into Insurance2 values('I2219', 'StateFarm',3800)
+  into Insurance2 values('I0874', 'StateFarm',20000)
+  into Insurance2 values('I9293', 'CapitalOne',15000)
+  into Insurance2 values('I9981', 'CapitalOne',40000)
+  into Insurance2 values('I4438', 'CapitalOne',15000)
+  into Insurance2 values('I0804', 'MetLife',10000)
+  into Insurance2 values('I9885', 'MetLife',20000)
+  into Insurance2 values('I5610', 'AllState',5400)
+  into Insurance2 values('I2254', 'AllState',20000)
+  into Insurance2 values('I7832', 'AllState',25000)
+  into Insurance2 values('I1942', 'AllState',10000)
+select * from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Insurance1
+----------------------------------------------------------------------------
+Insert All
+  into Insurance1 values('P100011', 'I1923',0)
+  into Insurance1 values('P101001', 'I1922',1600)
+  into Insurance1 values('P102005', 'I2219',300)
+  into Insurance1 values('P103002', 'I0874',680)
+  into Insurance1 values('P104004', 'I9293',190)
+  into Insurance1 values('P105010', 'I9293',0)
+  into Insurance1 values('P206001', 'I9981',0)
+  into Insurance1 values('P113003', 'I9885',980)
+  into Insurance1 values('P113004', 'I9981',0)
+  into Insurance1 values('P216017', 'I2254',0)
+  into Insurance1 values('P219010', 'I1942',0)
+  into Insurance1 values('P100120', 'I9981',900)
+  into Insurance1 values('P101121', 'I9885',1600)
+  into Insurance1 values('P100122', 'I9981',900)
+  into Insurance1 values('P101123', 'I2254',900)
+  into Insurance1 values('P100124', 'I1942',900)
+  into Insurance1 values('P101125', 'I1942',1720)
+select * from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Record
+----------------------------------------------------------------------------
+insert all
+  into Record values('P112','P100011')
+  into Record values('P112','P101001')
+  into Record values('P112','P102005')
+  into Record values('P114','P103002')
+  into Record values('P114','P104004')
+  into Record values('P114','P105010')
+  into Record values('P112','P206001')
+  into Record values('P112','P113003')
+  into Record values('P112','P113004')
+  into Record values('P112','P216017')
+  into Record values('P114','P219010')
+  into Record values('P114','P100120')
+  into Record values('P112','P101121')
+  into Record values('P112','P100122')
+  into Record values('P112','P101123')
+  into Record values('P112','P100124')
+  into Record values('P114','P101125')
+select * from dual; 
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Rooms
+----------------------------------------------------------------------------
+insert all
+  into Rooms values('R001','General','1 days','P100')
+  into Rooms values('R002','General','2 days','P100')
+  into Rooms values('R003','General','3 days','P100')
+  into Rooms values('R004','General','5 days','P100')
+  into Rooms values('R005','General','7 days','P100')
+  into Rooms values('R006','General','15 days','P100')
+  into Rooms values('R007','General','1 months','P100')
+  into Rooms values('R008','General','1 months','P100')
+  into Rooms values('R009','General','1 months','P100')
+  into Rooms values('R010','ICU','5 days','P102')
+  into Rooms values('R011','ICU','5 days','P102')
+  into Rooms values('R012','ICU','5 days','P102')
+  into Rooms values('R013','ICU','5 days','P102')
+  into Rooms values('R014','ICU','7 days','P102')
+  into Rooms values('R015','VIP','3 days','P103')
+  into Rooms values('R016','VIP','4 days','P103')
+  into Rooms values('R017','VIP','5 days','P103')
+  into Rooms values('R018','VIP','1 months','P103')
+  into Rooms values('R019','VIP','1 months','P103')
+  into Rooms values('R020','VIP','2 months','P103')
+select * from dual; 
+---------------------------------------------------------------------------- 
+
+--Insertion of table Class2_Patient
+----------------------------------------------------------------------------
+insert all
+  into class2_patient values('P100',date'2016-01-01','P100','P100','1','R001')
+  into class2_patient values('P101',date'2018-02-01','P101','P101','1','R002')
+  into class2_patient values('P102',date'2015-01-08','P102','','1','R003')
+  into class2_patient values('P103',date'2018-06-11','P103','P103','1','R004')
+  into class2_patient values('P104',date'2018-07-08','P104','','1','R005')
+  into class2_patient values('P113',date'2018-11-01','','P113','1','R008')
+  into class2_patient values('P119',date'2018-09-01','','P119','1','R009')
+  into class2_patient values('P120',date'2018-11-01','P120','P120','1','R017')
+  into class2_patient values('P121',date'2018-11-11','P121','P121','1','R017')
+  into class2_patient values('P122',date'2018-10-30','P122','P122','1','R001')
+  into class2_patient values('P123',date'2018-11-17','P123','P123','1','R002')
+  into class2_patient values('P124',date'2018-11-21','P124','P124','1','R003')
+  into class2_patient values('P125',date'2018-11-25','P125','P125','1','R004')
+select * from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Treatment
+----------------------------------------------------------------------------
+Insert All
+  into treatment values ('T1001','Adapalene','1 week')
+  into treatment values ('T1002','Antiandrogen','2 week')
+  into treatment values ('T1003','Azelaic acid','1 month')
+  into treatment values ('T1004','Cioteronel','3 week')
+  into treatment values ('T1005','Clindamycin','4 week')
+select * from dual; 
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Pharmacy2
+----------------------------------------------------------------------------
+Insert All
+  into Pharmacy2 values('1234567890','Abarelix','50','10')
+  into Pharmacy2 values('1234567891','Abciximab','60','10')
+  into Pharmacy2 values('1234567892','Abatacept','40','10')
+  into Pharmacy2 values('1234567893','Acarbose','30','20')
+  into Pharmacy2 values('1234567894','Aceon','200','50')
+select * from dual; 
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Pharmacy1
+----------------------------------------------------------------------------
+Insert All
+  into Pharmacy1 values('1234567890',date'2019-07-08')
+  into Pharmacy1 values('1234567891',date'2020-07-08')
+  into Pharmacy1 values('1234567892',date'2019-11-08')
+  into Pharmacy1 values('1234567893',date'2019-07-22')
+  into Pharmacy1 values('1234567894',date'2019-07-23')
+select * from dual; 
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Assigned
+----------------------------------------------------------------------------
+Insert All
+  into assigned values('P100',date'2016-01-01', 'T1001', '1234567890',date'2019-07-08')
+  into assigned values('P101',date'2018-02-01', 'T1002', '1234567891',date'2020-07-08')
+  into assigned values('P102',date'2015-01-08', 'T1003', '1234567890',date'2019-07-08')
+  into assigned values('P103',date'2018-06-11', 'T1004', '1234567892',date'2019-11-08')
+  into assigned values('P104',date'2018-07-08', 'T1005', '1234567893',date'2019-07-22')
+  into assigned values('P113', date'2018-11-01', 'T1001', '1234567890',date'2019-07-08')
+  into assigned values('P119', date'2018-09-01', 'T1002', '1234567891',date'2020-07-08')
+  into assigned values('P120', date'2018-11-01', 'T1001', '1234567890',date'2019-07-08')
+  into assigned values('P121', date'2018-11-11', 'T1001', '1234567891',date'2020-07-08')
+  into assigned values('P122', date'2018-10-30', 'T1001', '1234567890',date'2019-07-08')
+  into assigned values('P123', date'2018-11-17', 'T1001', '1234567891',date'2020-07-08')
+  into assigned values('P124', date'2018-11-21', 'T1001', '1234567890',date'2019-07-08')
+  into assigned values('P125', date'2018-11-25', 'T1001', '1234567891',date'2020-07-08')
+select * from dual;
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Visitors2
+----------------------------------------------------------------------------
+Insert All
+  into visitors2 values('V101','Olivia','3370 Nacogdoches Road, Suite 116 San Antonio, TX 78217','682-111-1234')
+  into visitors2 values('V102','William','3370 Nacogdoches Road, Suite 115 San Antonio, TX 78217','682-112-1234')
+  into visitors2 values('V103','Logan','3370 Nacogdoches Road, Suite 114 San Antonio, TX 78217','682-113-1234')
+  into visitors2 values('V105','Benjamin','3370 Nacogdoches Road, Suite 113 San Antonio, TX 78217','682-114-1234')
+  into visitors2 values('V107','Mason','3370 Nacogdoches Road, Suite 112 San Antonio, TX 78217','682-115-1234')
+  into visitors2 values('V113','Sam','370 Nacogdoches Road, Suite 103 San Antonio, TX 78217','682-184-1234')
+  into visitors2 values('V119','Jack','899 Nacogdoches Road, Suite 110 San Antonio, TX 78217','982-115-1234')
+select * from dual; 
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Visitors1
+----------------------------------------------------------------------------
+Insert All
+  into visitors1 values('P100',date'2016-01-01', 'V101')
+  into visitors1 values('P101',date'2018-02-01', 'V102')
+  into visitors1 values('P101',date'2018-02-01', 'V103')
+  into visitors1 values('P102',date'2015-01-08', 'V105')
+  into visitors1 values('P100',date'2016-01-01', 'V107')
+  into visitors1 values('P113',date'2018-11-01', 'V113')
+  into visitors1 values('P119', date'2018-09-01', 'V119')
+  into visitors1 values('P120', date'2018-11-01', 'V101')
+  into visitors1 values('P121', date'2018-11-11', 'V102')
+select * from dual;  
+----------------------------------------------------------------------------
+ 
+
+--Insertion of table Attend
+----------------------------------------------------------------------------
+Insert All
+  into attend values('P100',date'2016-01-01','P107')
+  into attend values('P101',date'2018-02-01', 'P108')
+  into attend values('P102',date'2015-01-08','P107')
+  into attend values('P103',date'2018-06-11', 'P107')
+  into attend values('P104',date'2018-07-08', 'P107')
+  into attend values('P113',date'2018-11-01', 'P107')
+  into attend values('P119',date'2018-09-01', 'P107')
+  into attend values('P120',date'2018-11-01', 'P107')
+  into attend values('P121',date'2018-11-11', 'P107')
+  into attend values('P122',date'2018-10-30', 'P107')
+  into attend values('P123',date'2018-11-17', 'P107')
+  into attend values('P124',date'2018-11-21', 'P107')
+  into attend values('P125',date'2018-11-25', 'P107')
+  into attend values('P100',date'2016-01-01', 'P108')
+  into attend values('P101',date'2018-02-01', 'P107')
+  into attend values('P102',date'2015-01-08','P108')
+  into attend values('P103',date'2018-06-11', 'P108')
+  into attend values('P104',date'2018-07-08', 'P108')
+  into attend values('P113',date'2018-11-01', 'P108')
+  into attend values('P119',date'2018-09-01', 'P108')
+  into attend values('P120',date'2018-11-01', 'P108')
+  into attend values('P121',date'2018-11-11', 'P108')
+  into attend values('P122',date'2018-10-30', 'P108')
+  into attend values('P123',date'2018-11-17', 'P108')
+  into attend values('P124',date'2018-11-21', 'P108')
+  into attend values('P125',date'2018-11-25', 'P108')
+ select * from dual; 
+ 
+
+5.2Creation of Views (Answer for Question d/Phase III)
+
+TopDoctor
+This view returns the First Name, Last Name and Date of Joining of those doctors who have made more than 5 Class 1 patients and over 10 Class 2 patients.
+
+CREATE VIEW AttendClass1(Class1_PatientNum, DoctorID)AS
+SELECT COUNT(*) AS Class1_Num, DoctorID
+FROM Class1_Patient
+GROUP By DoctorID;
+ 
+ CREATE VIEW AttendClass2(Class2_PatientNum,DoctorID) AS
+ SELECT COUNT(*)AS Class2_Num, DoctorID
+ FROM Attend
+ GROUP BY DoctorId;
+ 
+CREATE VIEW TopDoctor (First, Last, StartDate, PersonID, Age) AS
+SELECT P.First, P.Last, E.StartDate, P.PersonID, floor((SYSDATE - P.dateOfBirth)/365.242199) AS Age
+FROM Person P, Employee E, AttendClass1 AC1, AttendClass2 AC2
+Where P.PersonID = E.PersonID AND E.PersonID = AC1.DoctorID 
+AND E.PersonID = AC2.DoctorID AND AC1.Class1_PatientNum > 5 
+AND AC2.Class2_PatientNum > 10
+ORDER BY (AC1.Class1_PatientNum + AC2.Class2_PatientNum) DESC;
+
+TopTreatment
+This view returns the treatment name of the most common treatment in Dallas Care along with the bill payment amount when a person receives that treatment.
+
+CREATE VIEW TreatmentFreq(TreatmentID, TreatmentFreq) AS 
+SELECT TreatmentID, COUNT(*) AS TreatmentFreq
+FROM Assigned
+GROUP BY TreatmentID
+ORDER BY TreatmentFreq DESC;
+
+CREATE VIEW MostCommonTreat(TreatmentID, TreatmentFreq) AS
+SELECT TreatmentID, MAX(TreatmentFreq) AS TreatmentFreq
+FROM TreatmentFreq
+WHERE ROWNUM = 1
+GROUP BY TreatmentID
+ORDER BY TreatmentFreq DESC;
+
+CREATE VIEW TopTreatment(TreatmentName, BillAmount) AS
+SELECT TreatmentName, AmountDue
+FROM MedicalBillPayment MBP, MostCommonTreat MCT, Assigned A, Treatment T
+Where MCT.TreatmentID = T.TreatmentID AND MCT.TreatmentID = A.TreatmentID AND A.PersonID = MBP.PersonID;
+
+ReorderMeds
+This view returns the medicines that need to be reordered. A medicine need
+s to be reordered if the expiration date is 1 month from current date or quantity is less than 1000.
+
+create view ReorderMeds as
+((select medicinecode
+from pharmacy1 
+where dateofexpir <= trunc(sysdate+30 , 'month'))
+union
+(select medicinecode
+from pharmacy2 
+where quantity< 1000));
+
+PotentialPatient
+This view returns the name, phone number and ID of patients who visited the hospital more than 3 times as a Class 1 patient but has not been admitted yet.
+
+CREATE VIEW PotentialPatient(FIRST,MID,LAST,PHONENUMBER,PID) As
+SELECT P.FIRST, P.MID, P.LAST, Phone.PHONENUMBER, P.PERSONID
+From Personphone Phone, Person P, class1_patient cp
+where P.PERSONID = Phone.PERSONID and P.PERSONID = cp.PERSONID and cp.PERSONID NOT IN(
+SELECT CLASS1ID 
+From class2_patient
+where CLASS1ID is not null
+)and cp.PERSONID IN(
+SELECT PERSONID
+FROM records
+GROUP by(PERSONID)
+HAVING COUNT(*)>3);
+
+MostFrequentIssues
+This view returns the maximum frequency of the reason that patients visit the hospital for and the associated treatment for the same. For example, if patients visit the hospital mostly complaining about heart issues then what are the treatment associated with heart issues.
+
+CREATE VIEW PersonDescription(PersonID, DESCRIPTION)AS
+SELECT DISTINCT PERSONID, DESCRIPTION
+FROM RECORDS;
+
+CREATE VIEW FrequentIssues(Description, Frequent)AS
+SELECT Description,COUNT(*)
+FROM PersonDescription
+Group by Description
+ORder by COUNT(*) DESC;
+
+
+5.3Creation of SQL Queries (Answer for Question e/Phase III)
+Now we give out the SQL Queries for all questions listed in Question e as  follows:
+5.3.1 For each Doctor class, list the start date and specialization of the doctor.
+SELECT E.StartDate AS StartDate, D.Specialization AS Specialization, D.DoctorLevel, D.PersonID AS PersonID 
+FROM Employee E, Doctors D
+Where E.PersonID = D.PersonID;
+5.3.2 Find the names of employees who have been admitted to the hospital within 3 months of joining.
+
+SELECT P.First AS PirstName, P.Last AS LastName,E.STARTDATE, C2.DateOfBeingAdmitted
+FROM Person P, Employee E, Class2_Patient C2
+Where P.PersonID = E.PersonID AND C2.EMPID = C2.PersonID and C2.PersonID = e.personid
+AND (C2.DateOfBeingAdmitted > E.STARTDATE and C2.DateOfBeingAdmitted < ADD_MONTHS( E.STARTDATE , 3));
+5.3.3 Find the average age and class (trainee, visiting or permanent) of top 5 doctors in the hospital.
+
+SELECT D.DoctorLevel AS Class, D.PersonID 
+FROM Doctors D, TopDoctor TD
+Where D.PersonID = TD.PersonID
+AND ROWNUM <= 5;
+
+SELECT AVG(TD.Age)
+FROM TopDoctor TD
+where ROWNUM <= 5;
+5.3.4 Find the name of medicines associated with the most common treatment in the hospital.
+
+SELECT distinct t2.medicinename 
+FROM pharmacy2 t2, ASSIGNED t3
+WHERE t2.medicinecode = t3.medicinecode and t3.treatmentid IN
+(SELECT t1.treatmentid FROM ASSIGNED t1 GROUP BY t1.treatmentid ORDER BY COUNT(*) DESC
+FETCH FIRST 1 row only);
+5.3.5 Find all the doctors who have not had a patient in the last 5 months. (Hint: Consider the date of payment as the day the doctor has attended a patient/been consulted by a patient.)
+
+select t3.First,t3.last,t3.personid
+from person t3,doctors d1
+where t3.personid = d1.personid and d1.personid not in
+(
+(select t1.doctorid As doctorid
+from attend t1
+where t1.personid IN
+(SELECT t2.personid 
+FROM medicalbillpayment t2
+WHERE dateofpayment >=trunc(sysdate-150 , 'month')))
+UNION
+(select cp.doctorid As doctorid
+from Class1_Patient cp
+where cp.personid IN
+(SELECT t4.personid 
+FROM medicalbillpayment t4
+WHERE dateofpayment >=trunc(sysdate-150 , 'month')));
+5.3.6 Find the total number of patients who have paid completely using insurance and the name of the insurance provider.
+
+create view insurancepay(paymentid, amount)as
+select i.paymentId,sum(i.amount)
+From insurance1 i
+group by i.PaymentId;
+
+select count(distinct b.personid)
+From (select paymentId,sum(amount)as amount
+From insurance1 
+group by PaymentId) i, medicalbillpayment b
+where i.amount = b.amountdue and i.paymentid = b.paymentid;
+
+select distinct i2.insuranceprovider
+From insurancepay i, medicalbillpayment b,insurance1 i1,insurance2 i2
+where i.amount = b.amountdue and i.paymentid = b.paymentid and b.paymentid = i1.paymentid and i2.insuranceid = i1.insuranceid;
+5.3.7 Find the most occupied room in the hospital and the duration of the stay.
+
+select Roomid, govern_duration
+from rooms
+where roomid in(Select roomid 
+from (select roomid, count(*) from class2_patient group by roomid));
+5.3.8 Find the year with the maximum number of patient visiting the hospital and the reason for their visit. 
+
+select distinct r.description, b.year
+From records r,
+(select year
+from
+(select EXTRACT(YEAR FROM dateofvisit)AS year,count(*) AS frq
+From Records
+group by EXTRACT(YEAR FROM dateofvisit)
+order by count(*) desc) a
+where RowNum = 1) b
+where EXTRACT(YEAR FROM r.dateofvisit) = b.year;
+5.3.9 Find the duration of the treatment that is provided the least to patients.
+
+select t.duration
+from treatment t, 
+(select b.treatmentid
+from (Select a.treatmentid, count(*) AS frq
+from assigned a
+group by a.treatmentid
+order by count(*)asc) b
+where rownum = 1) c
+where t.treatmentid = c.treatmentid;
+5.3.10 List the total number of patients that have been admitted to the hospital after the most current employee has joined.
+
+select count(*) as numberofpatients
+from class2_patient cp,
+(select max(Startdate) as maxDate
+from employee) a
+where cp.dateofbeingadmitted >= a.maxdate;
+5.3.11 List all the patient records of those who have been admitted to the hospital within a week of being consulted by a doctor.
+
+select *
+from class2_patient c2, records r
+where (C2.DateOfBeingAdmitted > r.dateofvisit - 7 or C2.DateOfBeingAdmitted < r.dateofvisit + 7) and r.personid = c2.personid;
+5.3.12 Find the total amount paid by patients for each month in the year 2017.
+
+select extract(month from p.dateofpayment) as month, sum(p.amountdue) as totalamount
+from medicalbillpayment p
+where extract(year from p.dateofpayment) = 2017
+group by extract(month from p.dateofpayment);
+5.3.13 Find the name of the doctors of patients who have visited the hospital only once for consultation and have not been admitted to the hospital.
+
+select p.first, p.mid, p.last,d.personid
+from doctors d, person p
+where d.personid = p.personid and 
+d.personid in (select distinct c1.doctorid from class1_patient c1,
+(select personid,count(*) from records group by (personid)having count(*)=1) b where c1.personid = b.personid 
+and c1.personid not in (Select personid from class2_patient)
+);
+5.3.14 Find the name and age of the potential patients in the hospital. 
+
+select p.first , p.mid, p.last,floor((SYSDATE - p.dateOfBirth)/365.242199) as age
+from person p, potentialpatient pp
+where p.personid = pp.pid;
+
+0.Dependency Diagram
+We now draw a dependency diagram for each table from Figure 2 as follows: 
+ 
+
+0.Conclusion
+In this final report we summarized all the necessary descriptions and solutions for Hospital database, including process and result of EER diagrams, relational schemas in third normal form, SQL statements to create database, create view and solve corresponding queries, as well as dependency diagram. We also implement the whole database in Oracle and using a database state to test every query. In section 2 we also explained why we use superclass/subclass relationship to build relational schema, why we choose a Relational DBMS to implement our database, and the additional five business rules shown from implementation.
+ 
+
